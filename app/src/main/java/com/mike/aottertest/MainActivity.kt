@@ -1,59 +1,15 @@
 package com.mike.aottertest
 
-import android.media.Image
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.mike.aottertest.ui.theme.AotterTestTheme
-import com.mike.sdk.SdkHelper
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AotterTestTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
-            }
+            AotterTestTheme { AotterTestApp() }
         }
     }
 }
-
-@Composable
-fun MainScreen() {
-
-}
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    val sdkHelper = SdkHelper()
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    AotterTestTheme {
-        Greeting("Android")
-    }
-}
-
-data class Feed (
-    val title: String,
-    val content: String,
-    val image: Image
-)
