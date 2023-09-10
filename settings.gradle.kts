@@ -15,6 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "AotterTest"
 include(":app")
-include(":app:sdk")
 include(":Ads")
 include(":Ads:sdk")
