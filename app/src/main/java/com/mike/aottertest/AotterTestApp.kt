@@ -10,6 +10,6 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AotterTestApp() {
     Scaffold { contentPadding ->
-        FeedList(Modifier.padding(contentPadding))
+        BookList(Modifier.padding(contentPadding))
     }
 }
