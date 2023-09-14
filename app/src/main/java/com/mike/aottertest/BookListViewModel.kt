@@ -5,25 +5,45 @@ import androidx.lifecycle.viewModelScope
 import com.mike.aottertest.model.Book
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class BookListState(
-    val books: List<Book>,
+    val books: List<Book> = listOf(),
+    val isRefreshing: Boolean = false,
     val message: String? = ""
 )
 
 class BookListViewModel(
     private val bookRepository: BookRepository = BookRepository()
 ) : ViewModel() {
-    private val _books = MutableStateFlow<List<Book>>(listOf())
-    val books: StateFlow<List<Book>>
-        get() = _books.asStateFlow()
+    private val books = MutableStateFlow<List<Book>>(listOf())
+    private val isRefreshing = MutableStateFlow<Boolean>(false)
+    val bookListState: StateFlow<BookListState> = combine(
+        books,
+        isRefreshing
+    ) { currentBooks, refreshing ->
+        BookListState(
+            books = currentBooks,
+            isRefreshing = refreshing
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = BookListState()
+    )
 
     init {
         fetchBooks()
+    }
+
+    fun refreshBookList() {
+
     }
 
     private fun fetchBooks() = viewModelScope.launch(Dispatchers.IO) {
