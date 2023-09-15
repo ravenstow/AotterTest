@@ -46,7 +46,7 @@ fun BookList(
         modifier
             .fillMaxSize()
             .pullRefresh(pullRefreshState)
-            .verticalScroll(rememberScrollState())
+//            .verticalScroll(rememberScrollState(0))
     ) {
         if (books.isNotEmpty()) {
             LazyColumn {

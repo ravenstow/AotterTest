@@ -39,19 +39,21 @@ class BookListViewModel(
     )
 
     init {
-        fetchBooks()
+        refreshBookList()
     }
 
-    fun refreshBookList() {
-
-    }
-
-    private fun fetchBooks() = viewModelScope.launch(Dispatchers.IO) {
+    fun refreshBookList() = viewModelScope.launch(Dispatchers.IO) {
         try {
             val fetchedBooks = bookRepository.fetchBooks()
-            _books.update { fetchedBooks }
+            books.update { fetchedBooks }
         } catch (e: Exception) {
-            println("Fetching feeds failed! ${e.message}")
+            when (e) {
+                is TimeOutException -> { println("Fetch book later! ${e.message}") }
+                else -> { println("Fetch book failed! ${e.message}") }
+            }
+
         }
     }
 }
+
+class TimeOutException: Exception("Access Timeout!!")

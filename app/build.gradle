@@ -3,11 +3,12 @@ plugins {
     id "org.jetbrains.kotlin.android"
     id "com.google.dagger.hilt.android"
     id "kotlin-kapt"
+    id "com.google.devtools.ksp"
 }
 
 android {
     namespace = "com.mike.aottertest"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.mike.aottertest"
@@ -67,6 +68,7 @@ dependencies {
     // - RestFul
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.moshi:moshi-kotlin:1.15.0"
+    ksp "com.squareup.moshi:moshi-kotlin-codegen:1.14.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.9.0"
 
     // - Hilt
@@ -83,7 +85,7 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
+    
     testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.5"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
