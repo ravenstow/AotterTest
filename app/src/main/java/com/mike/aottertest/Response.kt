@@ -2,20 +2,26 @@ package com.mike.aottertest
 
 import com.mike.aottertest.model.Book
 import com.squareup.moshi.JsonClass
+import retrofit2.http.Headers
 
+@JsonClass(generateAdapter = true)
+class BookNameHeaders(
+    val status: String,
+    val copyright: String,
+    val num_results: String
+)
 @JsonClass(generateAdapter = true)
 class BookNameResponse(
-    val results: List<BookCategoryResult>
+    val headers: BookNameHeaders,
+    val body: BookCategoryResult
 )
 
-//data class BookNameResponse (
-//    @Json(name = "header") val header: String,
-//    @Json(name = "body") val body: Results
-//) {
-//
-//}
 @JsonClass(generateAdapter = true)
-data class BookCategoryResult(
+data class BookCategoryResult (
+    val results: List<BookCategory>
+)
+@JsonClass(generateAdapter = true)
+data class BookCategory(
     val list_name: String,
     val display_name: String,
     val list_name_encoded: String,
@@ -24,10 +30,18 @@ data class BookCategoryResult(
     val updated: String
 )
 
-fun BookNameResponse.toBookList(): List<String> = results.map { it.list_name }
+fun BookNameResponse.toBookList(): List<String> = body.results.map { it.list_name }
 
 @JsonClass(generateAdapter = true)
+class BookDataHeaders(
+    val status: String,
+    val copyright: String,
+    val num_results: String,
+    val last_modified: String
+)
+@JsonClass(generateAdapter = true)
 class BookDataResponse(
+    val headers: BookDataHeaders,
     val body: List<BookDetailResults>
 )
 
