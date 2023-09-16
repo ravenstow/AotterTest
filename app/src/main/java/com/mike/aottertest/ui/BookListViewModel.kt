@@ -2,6 +2,7 @@ package com.mike.aottertest.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mike.aottertest.data.EmptyResultException
 import com.mike.aottertest.domain.BookUseCase
 import com.mike.aottertest.model.Book
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,12 +54,10 @@ class BookListViewModel @Inject constructor(
             isRefreshing.update { false }
         } catch (e: Exception) {
             when (e) {
-                is TimeOutException -> { println("Fetch book later! ${e.message}") }
-                else -> { println("Fetch book failed! ${e.message}") }
+                is EmptyResultException -> { println("Fetch book failed! ${e.message}") }
             }
             isRefreshing.update { false }
         }
     }
 }
 
-class TimeOutException: Exception("Access Timeout!!")
