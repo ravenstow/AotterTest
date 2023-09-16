@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -22,7 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mike.aottertest.BookListViewModel
+import com.mike.aottertest.ui.BookListViewModel
 import com.mike.aottertest.model.Book
 import com.mike.sdk.SdkHelper
 
@@ -34,30 +32,32 @@ fun BookList(
 ) {
     val context = LocalContext.current
     val sdkHelper = SdkHelper(context)
-    val useDemoList = true
-    val demoBooks = Book.Demo.list()
+    val demoBooks = Book.Demo
     val bookListState by bookListVM.bookListState.collectAsState()
-    val books = if (useDemoList) demoBooks else bookListState.books
+    val books = bookListState.books
     val isRefreshing = bookListState.isRefreshing
     val pullRefreshState =
         rememberPullRefreshState(isRefreshing, bookListVM::refreshBookList)
+
+    println("Books Count: ${books.size}")
 
     Box(
         modifier
             .fillMaxSize()
             .pullRefresh(pullRefreshState)
-//            .verticalScroll(rememberScrollState(0))
     ) {
-        if (books.isNotEmpty()) {
-            LazyColumn {
-                items(books.size) { i ->
-                    BookItem(books[i])
-                }
-            }
+        if (isRefreshing) {
+            Text(text = "Loading...", modifier = Modifier.align(Alignment.Center), fontSize = 20.sp)
         } else {
-            Column(Modifier.align(Alignment.Center)) {
-                CircularProgressIndicator(Modifier.height(100.dp))
-                Loading(Modifier.height(50.dp))
+            if (books.isEmpty()) {
+                Text(
+                    text = "Fetching books failed\n please try again later",
+                    modifier = Modifier.align(Alignment.Center),
+                    fontSize = 20.sp
+                )
+            }
+            LazyColumn {
+                items(books.size) { i -> BookItem(books[i]) }
             }
         }
 
@@ -70,11 +70,3 @@ fun BookList(
 }
 
 
-@Composable
-private fun Loading(modifier: Modifier = Modifier) {
-    Text(
-        text = "Loading...",
-        modifier = modifier,
-        fontSize = 20.sp
-    )
-}
