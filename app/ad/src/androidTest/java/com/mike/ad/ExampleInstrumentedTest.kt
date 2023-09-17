@@ -1,4 +1,4 @@
-package com.mike.sdk
+package com.mike.ad
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.mike.sdk.test", appContext.packageName)
+        assertEquals("com.mike.ad.test", appContext.packageName)
     }
 }

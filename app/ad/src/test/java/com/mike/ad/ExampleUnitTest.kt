@@ -1,4 +1,4 @@
-package com.mike.sdk
+package com.mike.ad
 
 import org.junit.Test
 
