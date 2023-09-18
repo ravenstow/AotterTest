@@ -14,8 +14,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
     override suspend fun fetchBooks(): List<Book> {
         try {
             val bookCategoryResponse = ApiHelper.retrofitService.getBookCategories()
-            val bookCategories =
-                bookCategoryResponse.toBookCategories().also { println("Book Name Response: $it") }
+            val bookCategories = bookCategoryResponse.toBookCategories()
 
             if (bookCategories.isEmpty()) throw EmptyResultException()
 
@@ -25,7 +24,7 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
                 val bookDataResponse = ApiHelper.retrofitService.getBooks(
                     url = "books/lists/current/${bookCategories[i]}.json?$KEY_SUFFIX=$API_KEY"
                 )
-                val fetchedBooks = bookDataResponse.toBooks().also { println("Book Data Response: $it") }
+                val fetchedBooks = bookDataResponse.toBooks()
 
                 cacheBooks.addAll(fetchedBooks)
             }
@@ -38,4 +37,5 @@ class BookRepositoryImpl @Inject constructor() : BookRepository {
         }
     }
 }
-class EmptyResultException: Exception("Books no found!!")
+
+class EmptyResultException : Exception("Books no found!!")

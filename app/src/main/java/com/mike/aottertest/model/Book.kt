@@ -9,7 +9,7 @@ data class Book(
     @Json(name = "book_image") val imageSrc: String
 ) {
     object Demo {
-        fun invoke(): List<Book> =
-            Array<Book>(20) { Book(title = "Title ${it + 1}", author = "", imageSrc = "") }.toList()
+        operator fun invoke(): List<Book> =
+            Array(50) { Book(title = "Title ${it + 1}", author = "", imageSrc = "") }.toList()
     }
 }

@@ -27,7 +27,7 @@ class BookListViewModel @Inject constructor(
     private val bookUseCase: BookUseCase
 ) : ViewModel() {
     private val books = MutableStateFlow<List<Book>>(listOf())
-    private val isRefreshing = MutableStateFlow<Boolean>(false)
+    private val isRefreshing = MutableStateFlow(false)
     val bookListState: StateFlow<BookListState> = combine(
         books,
         isRefreshing

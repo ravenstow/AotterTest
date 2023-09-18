@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mike.aottertest.adSdk.composables.itemsWithAd
+import com.mike.aottertest.model.Book
 import com.mike.aottertest.ui.BookListViewModel
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -25,6 +26,8 @@ fun BookList(
     bookListVM: BookListViewModel = hiltViewModel()
 ) {
     val bookListState by bookListVM.bookListState.collectAsState()
+    // 沒有網路時的Demo books
+//    val books = Book.Demo()
     val books = bookListState.books
     val isRefreshing = bookListState.isRefreshing
     val pullRefreshState =
